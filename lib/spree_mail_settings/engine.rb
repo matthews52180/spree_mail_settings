@@ -5,12 +5,15 @@ module SpreeMailSettings
     engine_name 'spree_mail_settings'
 
     def self.activate
-      Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
+      #Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
+      #  Rails.configuration.cache_classes ? require(c) : load(c)
+      #end
+      Dir.glob(File.join(File.dirname(__FILE__), '../../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
-      Dir.glob(Rails.root + "app/overrides/**/*_override*.rb").each do |c|
-        require_dependency(c)
-      end
+      #Dir.glob(Rails.root + "app/overrides/**/*_override*.rb").each do |c| 
+      # require_dependency(c)
+      #end
     end
 
     initializer 'spree_mail_settings' do
