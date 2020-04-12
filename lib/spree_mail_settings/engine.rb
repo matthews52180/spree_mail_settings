@@ -6,8 +6,8 @@ module SpreeMailSettings
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    initializer "spree_globalize.environment", before: :load_config_initializers do |app|
-      SpreeGlobalize::Config = SpreeGlobalize::Configuration.new
+    initializer "spree_mail_settings.environment", before: :load_config_initializers do |app|
+      SpreeMailSettings::Config = SpreeMailSettings::Configuration.new
     end
 
     
@@ -20,6 +20,10 @@ module SpreeMailSettings
       #end
       Dir.glob(File.join(root, "app/**/*_decorator*.rb")) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
+      end
+      
+      Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/spree/*_decorator*.rb')) do |c|
+        Rails.application.config.cache_classes ? require(c) : load(c)
       end
     end
 
