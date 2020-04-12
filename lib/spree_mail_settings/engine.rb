@@ -4,15 +4,22 @@ module SpreeMailSettings
     isolate_namespace Spree
     engine_name 'spree_mail_settings'
 
+    config.autoload_paths += %W(#{config.root}/lib)
+
+    initializer "spree_globalize.environment", before: :load_config_initializers do |app|
+      SpreeGlobalize::Config = SpreeGlobalize::Configuration.new
+    end
+
+    
     def self.activate
       #Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
       #  Rails.configuration.cache_classes ? require(c) : load(c)
       #end
-      Dir.glob(File.join(File.dirname(__FILE__), '../../../app/**/*_decorator*.rb')) do |c|
+      #Dir.glob(File.join(File.dirname(__FILE__), '../../../app/**/*_decorator*.rb')) do |c|
+      #  Rails.configuration.cache_classes ? require(c) : load(c)
+      #end
+      Dir.glob(File.join(root, "app/**/*_decorator*.rb")) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
-      end
-      Dir.glob(Rails.root + "app/overrides/**/*_override*.rb").each do |c| 
-       require_dependency(c)
       end
     end
 
@@ -22,6 +29,7 @@ module SpreeMailSettings
       Mail.register_interceptor(Spree::Core::MailInterceptor)
     end
 
-    config.to_prepare(&method(:activate).to_proc)
+    #config.to_prepare(&method(:activate).to_proc)
+    config.to_prepare &method(:activate).to_proc
   end
 end
