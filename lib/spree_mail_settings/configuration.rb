@@ -1,4 +1,4 @@
-module SpreeMailSettings
+module Spree
   class Configuration < Spree::Preferences::Configuration
     # These configs intend to, respectively:
     #
