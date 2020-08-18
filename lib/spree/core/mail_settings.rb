@@ -30,7 +30,7 @@ module Spree
         private
 
         def preferred_delivery_method
-          Rails.application.config.action_mailer.delivery_method || :spree
+          Rails.application.config.action_mailer.delivery_method || :smtp
         end
       end
 
